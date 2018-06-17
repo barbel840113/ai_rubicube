@@ -9,14 +9,22 @@ export default class Camera {
 
         // Create and position a Perperctive Camera
         this.threeCamera = new THREE.PerspectiveCamera(Config.camera.fov, width / height, Config.camera.near, Config.camera.far);
-        this.threeCamera.position.set(Config.camera.posX, Config.camera.posY, Config.camera.PosZ);
+        this.threeCamera.position.set(Config.camera.posX, Config.camera.posY, Config.camera.posZ);
 
+        //set clear
         // Initial sizing
         this.updateSize(renderer);
 
         // Listener
         window.addEventListener('resize', () => this.updateSize(renderer), false);
 
+    }
+
+    updatePosition() {
+
+        this.threeCamera.position.x = Config.camera.posX;
+        this.threeCamera.position.y = Config.camera.posY;
+        this.threeCamera.position.z = Config.camera.PosZ;
     }
 
     updateSize(renderer) {
