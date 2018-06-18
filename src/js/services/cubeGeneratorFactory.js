@@ -2,20 +2,17 @@ import QubeObject from '../components/qubeObject';
 import LoggerService from './loggerService';
 
 export default class QubeGenerator {
-  constructor(x, level, matrixValue) {
+  constructor(x, level, matrixValue, colorSite) {
 
     // logger service
     this.loggerService = new LoggerService();
 
-    this.elemenArray = x;
+    this.elemenArray = matrixValue.length;
     this.elementLevel = level;
-    this.startPositionX = matrixValue[0];
-    this.startPositionY = matrixValue[1];
-    this.startPositionZ = matrixValue[2];
-
+    this.colorSite = colorSite;
 
     // save to store matrix
-    this.matrixArray = [];
+    this.matrixArray = matrixValue;
 
     this.cubeArray = [];
 
@@ -23,7 +20,8 @@ export default class QubeGenerator {
       blue: 0x21476E,
       red: 0xC52D0D,
       green: 0x1FCF04,
-      yellow: 0xCFFA0B
+      yellow: 0xCFFA0B,
+      orange: 0xf88c0d
     };
   }
 
@@ -38,37 +36,16 @@ export default class QubeGenerator {
   }
   //generate horizonatl three qube
 
-  generateHorizonatl(scene) {
-    if (this.elementLevel == 0) {
-      //create three qube for Rubi Code
-      for (let i = 0; i < this.elemenArray; i++) {
-        this.cubeArray[i] = [];
-        let posY = this.startPositionY;
-        let posX = this.startPositionX;
-        let posZ = this.startPositionZ;
+  generateHorizonatl(scene, colorFaces) {
+    for (let i = 0; i < this.matrixArray.length; i++) {
+      this.cubeArray[i] = [];
+      let posX = this.matrixArray[i][0];
+      let posY = this.matrixArray[i][1];
+      let posZ = this.matrixArray[i][2];
 
-        this.matrixArray[i] = [];
-
-        for (let j = 0; j < this.elemenArray; j++) {
-          //let random number
-          let randNumber = this.generateRandomNumber();
-          let matColor = this.returnColorMaterialByNumber(randNumber);
-          this.cubeArray[i][j] = new QubeObject(scene, matColor);
-          this.cubeArray[i][j].setPositionOfQube(posX, posY, posZ);
-          this.matrixArray[i][j] = { x: posX, y: posY, z: posZ };
-          this.loggerService.showCurrentMatrixAndSave(this.matrixArray[i][j]);
-
-          posY += 1;
-        }
-        this.startPositionX += 1;
-        posY = this.startPositionY;
-      }
-
-      let matColor = this.returnColorMaterialByNumber(4);
-      this.qubeTest = new QubeObject()
-      this.qubeTest.setScene(scene);
-      this.qubeTest.setPositionOfQube(0, 0.5, 1);
-      this.loggerService.showAllMatrix();
+      this.cubeArray[i] = new QubeObject(scene, colorFaces);
+      this.cubeArray[i].setPositionOfQube(posX, posY, posZ);
+      this.loggerService.showCurrentMatrixAndSave(this.matrixArray[i]);
     }
 
   }
@@ -131,24 +108,28 @@ export default class QubeGenerator {
       }
 
       switch (val) {
-        case 1 || 2:
+        case 1:
           return this.colorMaterial.blue;
-
-        case 2 || 4:
+        case 2:
+          return this.colorMaterial.green;
+        case 3:
+          return this.colorMaterial.blue;
+        case 4:
           return this.colorMaterial.red;
-
-        case 3 || 6:
+        case 5:
           return this.colorMaterial.green;
-
-        case 4 || 8:
+        case 6:
+          return this.colorMaterial.white;
+        case 7:
+          return this.colorMaterial.orange;
+        case 8:
           return this.colorMaterial.yellow;
-
-        case 9 || 10:
+        case 9:
           return this.colorMaterial.green;
-
+        case 10:
+          return this.colorMaterial.green;
         default:
           return this.colorMaterial.blue;
-
       }
     }
     catch (ex) {

@@ -3,16 +3,31 @@ import * as THREE from 'three';
 //Qube 
 export default class QubeObject {
 
-  constructor(scene, material) {
+  constructor(scene, colorFaces) {
     this.scene = scene;
+    this.colorFaces = colorFaces;
     this.geometry = new THREE.CubeGeometry(1, 1, 1);
-    this.material = new THREE.MeshLambertMaterial({ color: material });
+    this.setColorsFacesQube();
+    this.material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, wireframe: false,transparent: false, overdraw: 0.5});
     this.qube = new THREE.Mesh(this.geometry, this.material);
     this.qube.name = "Qube";
     this.oldPositionX = this.qube.position.x;
 
+
+    this.geo = new THREE.EdgesGeometry(this.qube.geometry);
+    this.mat = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 1, linecap: 'round', linejoin: 'round'});
+    this.wireframe = new THREE.LineSegments(this.geo, this.mat);
+
     this.setScene();
 
+  }
+
+  setColorsFacesQube() {
+
+    for(let i = 0; i < this.colorFaces.length; i++)
+    {
+      this.geometry.faces[i].color.setHex(this.colorFaces[i]);
+    }
   }
 
   /**
@@ -23,41 +38,12 @@ export default class QubeObject {
     try {
 
       this.scene.add(this.qube);
+      this.qube.add(this.wireframe);
     }
     catch (err) {
 
     }
   }
-
-  /**
-   * Set Rotation qube by X
-   */
-  setRotationQubeX(x) {
-    this.qube.rotation.x += 2 * x;
-  }
-
-  /**
-   * Rotation by Y
-   */
-  setRotationQubeY(y) {
-    this.qube.rotation.y += y;
-  }
-
-
-  setPositionOfQubeBasedOnOpacity(k, currentPosition) {
-
-    if (this.oldPositionX < currentPosition) {
-
-      this.qube.position.x += currentPosition + 1;
-      this.oldPositionX = currentPosition;
-    }
-
-    if (this.oldPositionX > currentPosition) {
-      this.qube.position.x -= currentPosition + 10;
-      this.oldPositionX = currentPosition;
-    }
-  }
-
 
   //rotation
   setPositionOfQube(x, y, z) {
@@ -66,11 +52,5 @@ export default class QubeObject {
     this.qube.position.z = z;
   }
 
-  caleQube() {
-
-    if (this.qube.scale < 2) {
-      this.qube.scale.x += 0.1;
-    }
-  }
 }
 

@@ -14,7 +14,7 @@ export default class DatGUI {
 
     /* Camera */
     const cameraFolder = gui.addFolder('Camera');
-    const cameraFOVGui = cameraFolder.add(Config.camera, 'fov', 0, 180).name('Camera FOV');
+    const cameraFOVGui = cameraFolder.add(Config.camera, 'fov', 0, 10).name('Camera FOV');
     cameraFOVGui.onChange((value) => {
       this.controls.enableRotate = false;
 
