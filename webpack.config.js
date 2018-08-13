@@ -80,6 +80,12 @@ module.exports = {
         },
         include: includePath,
         exclude: nodeModulesPath,
+      },
+      {
+         /// web workers
+        test: /\.worker\.js$/,
+        use: { loader: 'worker-loader'},
+      //  / options  :{ publicPath: '/web-workers/'}
       }
     ]
   },
