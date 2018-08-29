@@ -122,27 +122,29 @@ export default class Main {
 
     setTimeout(() => {
 
-      if (Config.isDev && Config.isShowingStats) {
-        Stats.start();
-      }
+     
+    }, 10);
 
-      // // Call render function and pass in created scene and camera
-      this.renderer.render(this.scene, this.camera.threeCamera);
+    if (Config.isDev && Config.isShowingStats) {
+      Stats.start();
+    }
 
-      if (Config.isDev && Config.isShowingStats) {
-        Stats.end();
-      }
-      // Render rtats if Dev
-      if (typeof (this.requestDB.objectstore) !== 'undefined') {
-        //this.requestDB.indexDb.open("MyTestDatabase11", 3.1);
-        let transaction = this.requestDB.objectstore.put(customerData[0]);
-      }
+    // // Call render function and pass in created scene and camera
+    this.renderer.render(this.scene, this.camera.threeCamera);
 
-      TWEEN.update();
-      this.controls.threeControls.update();
+    if (Config.isDev && Config.isShowingStats) {
+      Stats.end();
+    }
+    // Render rtats if Dev
+    if (typeof (this.requestDB.objectstore) !== 'undefined') {
+      //this.requestDB.indexDb.open("MyTestDatabase11", 3.1);
+     // let transaction = this.requestDB.objectstore.put(customerData[0]);
+    }
 
-      requestAnimationFrame(this.render.bind(this)); // Bind the main class instead of window object
-    }, 4000);
+    TWEEN.update();
+    this.controls.threeControls.update();
+
+    requestAnimationFrame(this.render.bind(this)); // Bind the main class instead of window object
 
   }
 

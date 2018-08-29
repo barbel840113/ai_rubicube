@@ -25,9 +25,12 @@ function init() {
     if(!window.indexedDB)
     {
       window.alert("Your browser doesn't support a stable version of IndexDB.");
+      throw "No IndexDB";
     }
     var container = document.getElementById('appContainer');
     new Main(container);
+
+    var worker = new WorkerService();
   }
 }
 
