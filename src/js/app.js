@@ -14,6 +14,11 @@ function init() {
     Detector.addGetWebGLMessage();
   }
   else {
+
+    if(!window.indexedDB)
+    {
+      window.alert("Your browser doesn't support a stable version of IndexDB.");
+    }
     var container = document.getElementById('appContainer');
     new Main(container);
   }

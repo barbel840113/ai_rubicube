@@ -22,16 +22,21 @@ import CreateServiceFactory from '../services/createService';
 import DatGUI from '../utils/datGUI';
 import Stats from '../help-library/Stats';
 
+const customerData = [
+  { Guid: 1, XPosition: 32, YPosition: 35, },
+];
+
 export default class Main {
 
   /**Constructor */
   constructor(container) {
     // Set container property to sscontainer element
     this.container = container;
-
+    this.indexDBContext = null;
     // Start Three Clock
     this.clock = new THREE.Clock();
-
+    // Open and pass & IndexDB
+    this.openIndexDBContext();
     // Main scene creation
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
@@ -70,29 +75,75 @@ export default class Main {
     Config.isLoaded = true;
     this.container.querySelector('#loading').style.display = 'none';
 
+    // open database
+
     // Start render which does not wait for model fully loaded
     this.render();
   }
 
+  /**
+   * OpenIndexDBContext
+   */
+  openIndexDBContext() {
+    // Index DB Context
+
+    // Request to IndexDB
+    this.requestDB = window.indexedDB.open("MyTestDatabase11", 3.1);
+    this.requestDB.onerror = function () {
+      console.log("Details " + event);
+    };
+
+    this.requestDB.onsuccess = function (event) {
+      this.indexDb = event.target.result;
+    }
+
+    this.requestDB.onupgradeneeded = function (event) {
+      // save the IDatabase
+      this.indexDb = event.target.result;
+
+      if (typeof (this.indexDb) !== 'undefined') {
+        this.objectstore = this.indexDb.createObjectStore("Cube_Matrix", { autoIncrement: true });
+        this.indexDBContext = this.objectstore;
+        this.objectstore.createIndex("Guid", "Guid", { unique: true });
+        this.objectstore.createIndex("XPosition", "XPosition", { unique: false });
+        this.objectstore.createIndex("YPosition", "YPosition", { unique: false });
+
+
+        //  customerData.forEach((val) => {
+        //   let transaction = this.objectstore.put(val);
+        // });
+
+        // console.log(this.objectstore.get(1));
+      }
+    }
+  }
+
   render() {
 
-    if (Config.isDev && Config.isShowingStats) {
-      Stats.start();
-    }
+    setTimeout(() => {
 
-    // // Call render function and pass in created scene and camera
-    this.renderer.render(this.scene, this.camera.threeCamera);
+      if (Config.isDev && Config.isShowingStats) {
+        Stats.start();
+      }
 
-    if (Config.isDev && Config.isShowingStats) {
-      Stats.end();
-    }
-    // Render rtats if Dev
+      // // Call render function and pass in created scene and camera
+      this.renderer.render(this.scene, this.camera.threeCamera);
 
+      if (Config.isDev && Config.isShowingStats) {
+        Stats.end();
+      }
+      // Render rtats if Dev
+      if (typeof (this.requestDB.objectstore) !== 'undefined') {
+        //this.requestDB.indexDb.open("MyTestDatabase11", 3.1);
+        let transaction = this.requestDB.objectstore.put(customerData[0]);
+      }
 
-    TWEEN.update();
-    this.controls.threeControls.update();
+      TWEEN.update();
+      this.controls.threeControls.update();
 
-    requestAnimationFrame(this.render.bind(this)); // Bind the main class instead of window object
+      requestAnimationFrame(this.render.bind(this)); // Bind the main class instead of window object
+    }, 4000);
+
   }
 
 
