@@ -25,12 +25,11 @@ export default class DatGUI {
 
       this.controls.enableRotate = true;
     });
-    //   const cameraAspectGui = cameraFolder.add(Config.camera, 'aspect', 0, 4).name('Camera Aspect');
-    //   cameraAspectGui.onChange((value) => {
-    //     this.controls.enableRotate = false;
-
-    //     this.camera.aspect = value;
-    //   });
+      const cameraAspectGui = cameraFolder.add(Config.camera, 'aspect', 0, 4).name('Camera Aspect');
+      cameraAspectGui.onChange((value) => {
+        this.controls.enableRotate = false;
+        this.camera.aspect = value;
+      });
     //   cameraAspectGui.onFinishChange(() => {
     //     this.camera.updateProjectionMatrix();
 

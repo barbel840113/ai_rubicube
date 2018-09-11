@@ -22,6 +22,9 @@ import CreateServiceFactory from '../services/createService';
 import DatGUI from '../utils/datGUI';
 import Stats from '../help-library/Stats';
 
+//thread
+import WorkerService from '../web-workers/worker-service';
+
 const customerData = [
   { Guid: 1, XPosition: 32, YPosition: 35, },
 ];
@@ -40,6 +43,8 @@ export default class Main {
     // Main scene creation
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
+    
+    var worker = new WorkerService();
 
     if (window.devicePixelRatio) {
       Config.dpr = window.devicePixelRatio;
@@ -51,8 +56,7 @@ export default class Main {
     this.controls = new Controls(this.camera.threeCamera, container);
     this.light = new Light(this.scene);
     this.planeObject = new PlaneObject(this.scene);
-    //this.qubeObject = new QubeObject(this.scene);
-
+   
     this.createQubeGenerator = new CreateServiceFactory(this.scene);
     // STart render which does not wait for model fully loaded
 
@@ -107,7 +111,6 @@ export default class Main {
         this.objectstore.createIndex("Guid", "Guid", { unique: true });
         this.objectstore.createIndex("XPosition", "XPosition", { unique: false });
         this.objectstore.createIndex("YPosition", "YPosition", { unique: false });
-
 
         //  customerData.forEach((val) => {
         //   let transaction = this.objectstore.put(val);
