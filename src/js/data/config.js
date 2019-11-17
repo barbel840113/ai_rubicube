@@ -20,7 +20,7 @@ export default {
   texture: {
     path: './assets/textures/',
     imageFiles: [
-      {name: 'UV', image: 'UV_Grid_Sm.jpg'}
+      { name: 'UV', image: 'UV_Grid_Sm.jpg' }
     ]
   },
   mesh: {
@@ -38,6 +38,15 @@ export default {
   },
   camera: {
     fov: 5,
+    near: 2,
+    far: 1000,
+    aspect: 1,
+    posX: 0,
+    posY: 30,
+    posZ: 40
+  },
+  firstlineRotation: {
+    flr: 5,
     near: 2,
     far: 1000,
     aspect: 1,
@@ -76,6 +85,10 @@ export default {
     x: -75,
     y: 280,
     z: 150
+  },
+  motion: {
+    rotationRLabel: 'R',
+    R: function () {}
   },
   shadow: {
     enabled: true,

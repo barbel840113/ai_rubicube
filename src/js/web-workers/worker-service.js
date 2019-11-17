@@ -4,11 +4,12 @@ import work from 'webworkify-webpack';
  * Worker Service
  */
 export default class WorkerService {
- 
+
 
     constructor() {
 
         this.number = 0;
+        this.isDisposedWorkerThread = false;
 
         this.init();
     }
@@ -22,33 +23,30 @@ export default class WorkerService {
 
             let testSend = "Welcome to Thread";
             // add listener for http web worker
-            httpWorker.addEventListener('message', event => {
-                console.log("Starting new Thread to Create Neural Network");
-                httpWorker.postMessage({command : testSend});
-            });
-
-            httpWorker.postMessage({command : testSend});
-
-            setTimeout(() => {
-                httpWorker.terminate();
-            }, 10000);
-            /// add event listener
-            // w.addEventListener('message', event => {
-            //     console.log(event.data);
-            //     if (Object.getOwnPropertyNames("command")) {
-            //         // increase the number
-            //         this.number += 1;
-            //         // console.log(number);
-            //         event.data.command += 1;
-            //         if (this.number == 1000) {
-            //             w.terminate();
-            //         } else {
-            //             w.postMessage({ command: this.number });
-            //         }
-            //     }
+            // httpWorker.addEventListener('message', event => {
+            //     console.log("Starting new Thread to Create Neural Network");
+            //     httpWorker.postMessage({ command: testSend });
             // });
 
-            //w.postMessage({ command: this.number }); // send the worker a message
+            // httpWorker.postMessage({ command: testSend });
+
+            // setTimeout(() => {
+            //     httpWorker.terminate();
+            // }, 10000);
+
+
+            //  add event listener
+            w.addEventListener('message', event => {
+                console.log(event.data.command);
+                this.isDisposedWorkerThread = event.data.command;
+                if (!this.isDisposedWorkerThread) {
+                    w.postMessage({ command: this.isDisposedWorkerThread });
+                } else {
+                    w.terminate();
+                }
+            });
+
+            w.postMessage({ command: this.isDisposedWorkerThread }); // send the worker a message
         }
     }
 }

@@ -13,6 +13,8 @@ if (__ENV__ === 'dev') {
 var number = { number: 20 };
 
 Config.isDev = true;
+
+// Init method
 function init() {
 
   var result = "";

@@ -24,6 +24,7 @@ import Stats from '../help-library/Stats';
 
 //thread
 import WorkerService from '../web-workers/worker-service';
+import RotateService from '../services/rotateService';
 
 const customerData = [
   { Guid: 1, XPosition: 32, YPosition: 35, },
@@ -36,6 +37,7 @@ export default class Main {
     // Set container property to sscontainer element
     this.container = container;
     this.indexDBContext = null;
+    
     // Start Three Clock
     this.clock = new THREE.Clock();
     // Open and pass & IndexDB
@@ -58,6 +60,7 @@ export default class Main {
     this.planeObject = new PlaneObject(this.scene);
    
     this.createQubeGenerator = new CreateServiceFactory(this.scene);
+    this.rotateService = new RotateService(this.scene, this.createQubeGenerator);
     // STart render which does not wait for model fully loaded
 
     const lights = ['ambient', 'directional', 'point', 'hemi'];

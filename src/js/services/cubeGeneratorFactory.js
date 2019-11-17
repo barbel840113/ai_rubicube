@@ -21,7 +21,8 @@ export default class QubeGenerator {
       red: 0xC52D0D,
       green: 0x1FCF04,
       yellow: 0xCFFA0B,
-      orange: 0xf88c0d
+      orange: 0xf88c0d,
+      selected :0xbd9d9d,
     };
   }
 
@@ -109,7 +110,7 @@ export default class QubeGenerator {
 
       switch (val) {
         case 1:
-          return this.colorMaterial.blue;
+          return this.colorMaterial.selected;
         case 2:
           return this.colorMaterial.green;
         case 3:
@@ -121,9 +122,9 @@ export default class QubeGenerator {
         case 6:
           return this.colorMaterial.white;
         case 7:
-          return this.colorMaterial.orange;
+          return this.colorMaterial.selected;
         case 8:
-          return this.colorMaterial.yellow;
+          return this.colorMaterial.selected;
         case 9:
           return this.colorMaterial.green;
         case 10:

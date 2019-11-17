@@ -3,15 +3,13 @@ import Colors from '../data/colors';
 
 export default class CreateServiceFactory {
 
-
-
     constructor(scene) {
 
         this.scene = scene;
         this.qubeGeneratorArray = [];
         this.initColorSite();
         this.initConfig();
-
+        this.matrixValue = [];
     }
 
     initColorSite() {
@@ -55,7 +53,7 @@ export default class CreateServiceFactory {
 
         });
 
-        let faceColors = [Colors.yellow, Colors.yellow, Colors.white,
+        let faceColors = [Colors.selected, Colors.yellow, Colors.white,
         Colors.white, Colors.green, Colors.green, Colors.black, Colors.black,
         Colors.orange, Colors.orange, Colors.red, Colors.red];
         this.qubeGeneratorArray = new QubeGenerator(3, 0, this.matrixValue, this.initColorSite);
@@ -64,9 +62,13 @@ export default class CreateServiceFactory {
     /**
      * Initialize Second Level
      */
-    InitializeSecondLevelQube() {
+    InitializeSecondLevelQube(val) {
+
+        let number = val == undefined ? 0 : val;
+        this.matrixValue = [];
+
         this.matrixValue = [
-            [0, 1.5, -1], //1
+            [number, 1.5, -1], //1
             [1, 1.5, -1], //2
             [2, 1.5, -1], //3
             [0, 1.5, -2], //4

@@ -3,12 +3,12 @@ import Config from '../data/config';
 // Manages all dat.GUI interactions
 export default class DatGUI {
   constructor(main) {
+    
     const gui = new dat.GUI();
-
-    this.camera = main.camera.threeCamera;
+    this.camera = main.camera.threeCamera;                                                                                                                                                                                          
     this.controls = main.controls.threeControls;
     this.light = main.light;
-
+    this.rotateService = main.rotateService; 
     /* Global */
     //gui.close();
 
@@ -25,11 +25,25 @@ export default class DatGUI {
 
       this.controls.enableRotate = true;
     });
-      const cameraAspectGui = cameraFolder.add(Config.camera, 'aspect', 0, 4).name('Camera Aspect');
-      cameraAspectGui.onChange((value) => {
-        this.controls.enableRotate = false;
-        this.camera.aspect = value;
-      });
+    const cameraAspectGui = cameraFolder.add(Config.camera, 'aspect', 0, 4).name('Camera Aspect');
+    cameraAspectGui.onChange((value) => {
+      this.controls.enableRotate = false;
+      this.camera.aspect = value;
+    });
+
+
+    const rotateUpForwardGroup = gui.addFolder('Rotation');
+    const rotateRControl = rotateUpForwardGroup.add(Config.motion, Config.motion.rotationRLabel);
+    rotateRControl.onChange(event =>{
+        this.rotateService.rotateQubeR();
+    });
+
+    // rotate first line
+    const rotateFirstLineUp = gui.addFolder("FirstLineRotation");
+    const rotateFLUP = rotateFirstLineUp.add(Config.firstlineRotation, 'flr', 0 ,10).name('Rotate ');
+    rotateFLUP.onChange((event) =>{
+      this.rotateService.rotateQubeFirstLine(event);
+    });
     //   cameraAspectGui.onFinishChange(() => {
     //     this.camera.updateProjectionMatrix();
 

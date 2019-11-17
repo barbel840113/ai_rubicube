@@ -2,12 +2,6 @@
 
 module.exports = function worker(self) {
     self.addEventListener('message', (event) => {       
-        console.log(event.data.command);
-        // setInterval(() => {
-        //     self.postMessage({ command: event.data.command.number, result: event.data.command.number });
-        //     console.log(event.data.command.number)
-        // }, 500);
-
-        self.postMessage({command: event.data.command })
+          self.postMessage({command: event.data.command })
     });
 };
